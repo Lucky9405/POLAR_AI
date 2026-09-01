@@ -10,7 +10,10 @@ research station ("Bharati Station" analogue). They are not real
 engineering specifications for any actual NCPOR facility.
 """
 import os
+from dotenv import load_dotenv
 from pydantic import BaseModel
+
+load_dotenv()
 
 
 class StationConfig(BaseModel):
@@ -65,8 +68,8 @@ class AppConfig(BaseModel):
     backend_port: int = int(os.getenv("BACKEND_PORT", "8000"))
     cors_origins: list[str] = os.getenv("CORS_ORIGINS", "http://localhost:5173").split(",")
     database_url: str = os.getenv("DATABASE_URL", "sqlite:///./data/polar_ai.db")
-    optional_llm_api_key: str | None = os.getenv("OPTIONAL_LLM_API_KEY") or None
-    optional_llm_provider: str | None = os.getenv("OPTIONAL_LLM_PROVIDER") or None
+    optional_llm_api_key: str | None = os.getenv("GEMINI_API_KEY") or None
+    optional_llm_provider: str | None = os.getenv("OPTIONAL_LLM_PROVIDER", "gemini") or None
 
 
 station_config = StationConfig()

@@ -81,13 +81,20 @@ def answer_deterministic(question: str, state: dict) -> str:
 
 def answer(question: str, state: dict) -> dict:
     """Returns {answer, source} — source is 'llm' or 'deterministic'."""
+
     if app_config.optional_llm_api_key and app_config.optional_llm_provider:
         try:
-            from app.advisor.llm_provider import call_llm  # isolated, optional import
-            fallback_facts = answer_deterministic(question, state)
-            llm_text = call_llm(question, state, fallback_facts)
+            from app.advisor.llm_provider import generate_advisor_response
+
+            llm_text = generate_advisor_response(question, state)
+
             if llm_text:
                 return {"answer": llm_text, "source": "llm"}
+
         except Exception:
-            pass  # fall through to deterministic — app must always work
-    return {"answer": answer_deterministic(question, state), "source": "deterministic"}
+            pass
+
+    return {
+        "answer": answer_deterministic(question, state),
+        "source": "deterministic",
+    }
