@@ -2,6 +2,7 @@
   "name": "polar-ai-frontend",
   "private": true,
   "version": "0.2.0",
+  "packageManager": "pnpm@10.16.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
