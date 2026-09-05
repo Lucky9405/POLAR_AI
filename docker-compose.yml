@@ -1,0 +1,24 @@
+version: "3.9"
+
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "${BACKEND_PORT:-8000}:8000"
+    environment:
+      - DATABASE_URL=${DATABASE_URL:-sqlite:///./data/polar_ai.db}
+      - POLAR_DB_PATH=/app/data/polar_ai.db
+      - OPTIONAL_LLM_API_KEY=${OPTIONAL_LLM_API_KEY:-}
+      - OPTIONAL_LLM_PROVIDER=${OPTIONAL_LLM_PROVIDER:-}
+      - CORS_ORIGINS=${CORS_ORIGINS:-http://localhost:5173}
+    volumes:
+      - ./data:/app/data
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "${FRONTEND_PORT:-5173}:5173"
+    environment:
+      - VITE_BACKEND_URL=http://backend:8000
+    depends_on:
+      - backend

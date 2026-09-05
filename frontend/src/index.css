@@ -1,0 +1,74 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   Global theme system — real CSS variables consumed by every
+   component through Tailwind's polar-* color tokens (see
+   tailwind.config.js). Toggling [data-theme] on <html> changes
+   backgrounds, panels, borders, and text everywhere at once —
+   this is not a background-only cosmetic toggle.
+   ============================================================ */
+[data-theme="dark"] {
+  --polar-bg: #050a14;
+  --polar-panel: #0b1220;
+  --polar-panel2: #0f1a2c;
+  --polar-border: #1c2a41;
+  --polar-text: #e2e8f0;
+  --polar-dim: #7d8ba1;
+  --scrollbar-track: #0b1220;
+  --scrollbar-thumb: #1c2a41;
+}
+
+[data-theme="light"] {
+  --polar-bg: #f1f5f9;
+  --polar-panel: #ffffff;
+  --polar-panel2: #f8fafc;
+  --polar-border: #cbd5e1;
+  --polar-text: #0f172a;
+  --polar-dim: #64748b;
+  --scrollbar-track: #e2e8f0;
+  --scrollbar-thumb: #cbd5e1;
+}
+
+html, body, #root {
+  background-color: var(--polar-bg);
+  color: var(--polar-text);
+}
+
+body {
+  font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Station identity accents — cosmetic only, independent of theme. Health
+   status colors (green=healthy, amber=warning, red=critical) are NEVER
+   driven by these and stay defined via StatusPill in ui.tsx regardless of
+   station or theme. */
+[data-station="MAITRI"] { --station-accent: #38bdf8; --station-accent-secondary: #7dd3fc; --station-accent-dim: rgba(56,189,248,0.12); }
+[data-station="BHARATI"] { --station-accent: #2dd4bf; --station-accent-secondary: #5eead4; --station-accent-dim: rgba(45,212,191,0.12); }
+
+.station-accent-border { border-color: var(--station-accent, #22d3ee) !important; }
+.station-accent-text { color: var(--station-accent, #22d3ee) !important; }
+.station-accent-bg { background-color: var(--station-accent-dim, rgba(34,211,238,0.1)) !important; }
+.station-accent-bg-solid { background-color: var(--station-accent, #22d3ee) !important; }
+
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: var(--scrollbar-track); }
+::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 4px; }
+
+.panel {
+  @apply bg-polar-panel border border-polar-border rounded-lg p-4;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.panel-title {
+  @apply text-xs font-semibold tracking-wider text-polar-dim uppercase mb-3;
+}
+
+.glow-cyan { box-shadow: 0 0 16px rgba(34, 211, 238, 0.12); }
+
+/* Recharts text/grid inherit theme rather than being hardcoded per-chart */
+.recharts-text, .recharts-cartesian-axis-tick-value { fill: var(--polar-dim) !important; }
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical line { stroke: var(--polar-border) !important; }
