@@ -1,0 +1,12 @@
+services:
+  - type: web
+    runtime: static
+    name: polar-ai-frontend
+    rootDir: frontend
+
+    buildCommand: pnpm run build
+    staticPublishPath: dist
+
+    envVars:
+      - key: VITE_BACKEND_URL
+        value: https://polar-ai-backend.onrender.com
